@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Entities\NewsCategory;
+use App\Entities\News;
 
 class NewsController extends Controller
 {
-    public function index(request $request){
+    public function index(request $request)
+    {
 
         $type = $request->query('type');
         $title = $request->query('title');
 
-        return NewsCategory::where('type', 'like', '%'.$type.'%')->with(['news' => function ($query) use ($title){
-            $query->where('title', 'like', '%'.$title.'%');
+        return News::where('title', 'like', '%'.$title.'%')->with(['NewsCategory' => function ($query) use ($type){
+            $query->where('type', 'like', '%'.$type.'%');
         }])->get();
     }
 }
