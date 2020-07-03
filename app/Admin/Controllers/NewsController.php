@@ -28,9 +28,7 @@ class NewsController extends AdminController
         $grid = new Grid(new News);
 
         $grid->column('id', __('Id'));
-        $grid->news_category("訊息分類")->display(function ($catergory) {
-            return $catergory['type'];
-        });
+        $grid->column("newsCategory.type",'訊息分類');
         $grid->column('title', __('主題'));
         $grid->column('release', __('發怖時間'));
         $grid->column('content', __('內容'));

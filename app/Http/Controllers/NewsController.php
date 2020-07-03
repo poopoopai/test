@@ -13,8 +13,8 @@ class NewsController extends Controller
         $type = $request->query('type');
         $title = $request->query('title');
 
-        return News::where('title', 'like', '%'.$title.'%')->with(['NewsCategory' => function ($query) use ($type){
-            $query->where('type', 'like', '%'.$type.'%');
-        }])->get();
+        return News::whereHas('NewsCategory', function($q) use ($type) {
+            $q->where('type', 'like', "%$type%");
+        })->where('title', 'like', "%$title%")->with('NewsCategory')->get();
     }
 }

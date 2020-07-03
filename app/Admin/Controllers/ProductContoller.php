@@ -28,10 +28,7 @@ class ProductContoller extends AdminController
         $grid = new Grid(new Product);
 
         $grid->column('id', __('ID'))->sortable();
-   
-        $grid->product_category("分類種類")->display(function ($catergory) {
-            return $catergory['type'];
-        });
+        $grid->column("productCategory.type", "分類種類");
         $grid->column('name', __('產品名稱'));
         $grid->column('status', __('上架狀態'));
         $grid->column('description', __('描述'));
