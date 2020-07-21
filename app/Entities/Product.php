@@ -12,4 +12,16 @@ class Product extends Model
     {
     	return $this->belongsTo(ProductCategory::class);
     }
+
+    public function getimageAttribute($value)
+    {
+       return json_decode($value, true);
+    }
+
+    public function setimageAttribute($value)
+    {
+       if (is_array($value)){
+           $this->attributes['image'] = json_encode($value);
+       }
+    }
 }

@@ -16,6 +16,8 @@ Route::group([
     
     $router->resource('news', NewsController::class);
     $router->resource('news-categories', NewsCategoryController::class);
+    
+    $router->resource('category-trees', CategoryTreeController::class);
 });
 
 

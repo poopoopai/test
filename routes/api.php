@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/News', 'NewsController@index');
 Route::get('/Products', 'ProductController@index');
+Route::post('/Storage', 'NewsController@test');
