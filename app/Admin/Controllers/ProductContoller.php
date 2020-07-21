@@ -8,6 +8,8 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+// use App\Admin\Actions\Replicate;
+// use App\Admin\Actions\BatchReplicate;
 
 class ProductContoller extends AdminController
 {
@@ -18,6 +20,14 @@ class ProductContoller extends AdminController
      */
     protected $title = '產品選擇';
 
+    protected $category;
+
+    public function __construct()
+    {
+        // 產品分類
+        $this->category = ProductCategory::get()->pluck('type', 'id');
+    }
+
     /**
      * Make a grid builder.
      *
@@ -26,17 +36,43 @@ class ProductContoller extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Product);
-
+        
         $grid->column('id', __('ID'))->sortable();
-   
-        $grid->product_category("分類種類")->display(function ($catergory) {
-            return $catergory['type'];
+        $grid->column("productCategory.type", "分類種類")->help('这一列是...');
+        $grid->column('name', __('產品名稱'))->replace(['happy' => 'mad'])->copyable();
+        $grid->column('status', __('上架狀態'))->display( function ($status) {
+            return ($status) ? "<span class=\"badge label-success\">ON</span>" : "<span class=\"badge label-danger\">OFF</span>";
         });
-        $grid->column('name', __('產品名稱'));
-        $grid->column('status', __('上架狀態'));
-        $grid->column('description', __('描述'));
-        $grid->column('image', __('圖片'));
+        $grid->column('description')->badge('success');
+        
+        $grid->column('image' , '圖片')->image(url('/').'/storage/', 100, 100);
+        $grid->quickSearch(['description', 'name']);
 
+        
+        $grid->filter( function ($filter) {
+            $filter->where(function ($query) {
+                switch ($this->input) {
+                    case '1':
+                        $query->where('status', 1);
+                        break;
+                    case '0':
+                        $query->where('status', 0);
+                        break;
+                }
+            }, '上架2222狀態')->radio([
+                '1' => '是',
+                '0' => '否',
+            ]);
+        });
+        $grid->enableHotKeys();
+
+        // $grid->actions(function ($actions) {
+        //     $actions->add(new Replicate);
+        // });
+        // $grid->batchActions(function ($batch) {
+        //     $batch->add(new BatchReplicate());
+        // });
+        
         return $grid;
     }
 
@@ -50,7 +86,7 @@ class ProductContoller extends AdminController
     {
         $show = new Show(Product::findOrFail($id));
 
-
+        $show->field('image','图片')->image(url('/').'/storage/');
 
         return $show;
     }
@@ -63,10 +99,10 @@ class ProductContoller extends AdminController
     protected function form()
     {
         $form = new Form(new Product);
-        $Category = ProductCategory::get()->pluck('type', 'id');
-        $form->select('product_category_id', '分類種類')->options($Category);
+       
+        $form->select('product_category_id', '分類種類')->options($this->category);
         $form->text('name', "產品名稱")->rules('required');
-        $form->image('image', "圖片")->uniqueName();
+        $form->multipleImage('image', "圖片")->removable()->uniqueName();
         $form->textarea('description', "描述");
         $form->switch('status', "上架狀態")->default(0);;
 

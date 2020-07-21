@@ -12,9 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('send_email');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/sendemail', 'SendEmailController@index');
+
+Route::post('/sendemail/send', 'SendEmailController@send');

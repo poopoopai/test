@@ -13,8 +13,13 @@ class ProductController extends Controller
         $type = $request->query('type');
         $name = $request->query('name');
 
-        return Product::where('name', 'like', '%'.$name.'%')->with(['productCategory' => function ($query) use ($type){
-            $query->where('type', 'like', '%'.$type.'%');
-        }])->get();
+        return Product::whereHas('productCategory', function ($q) use ($type) {
+            $q->where('type', 'like', "%$type%");
+        })->where('name', 'like', "%$name%")->with('productCategory')->get();
+
+        // return Product::with('productCategory')->get()->filter(function ($q) use ($type) {
+        //     $q->productCategory->type ==
+        // });
+     
     }
 }

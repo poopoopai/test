@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Entities\ProductCategory;
 use Encore\Admin\Controllers\AdminController;
+use App\Admin\Actions\Replicate;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -24,13 +25,21 @@ class ProductCategoryController extends AdminController
      */
     protected function grid()
     {
+        
         $grid = new Grid(new ProductCategory);
-
+        
         $grid->column('id', __('Id'));
         $grid->column('type', __('產品類型'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
+        
+       
 
+        $grid->disableCreateButton();
+        $grid->disableExport();
+        // $grid->actions(function ($actions) {
+        //     $actions->add(new Replicate);
+        // });
         return $grid;
     }
 
