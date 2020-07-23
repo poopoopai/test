@@ -36,7 +36,7 @@ class ProductContoller extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Product);
-        
+        $grid->fixColumns(2); // 可固定欄位 第一個變數固定前面爛位 第二個變數固定後面欄位預設-1
         $grid->column('id', __('ID'))->sortable();
         $grid->column("productCategory.type", "分類種類")->help('这一列是...');
         $grid->column('name', __('產品名稱'))->replace(['happy' => 'mad'])->copyable();
@@ -59,13 +59,12 @@ class ProductContoller extends AdminController
                         $query->where('status', 0);
                         break;
                 }
-            }, '上架2222狀態')->radio([
+            }, '上架狀態')->radio([
                 '1' => '是',
                 '0' => '否',
             ]);
         });
-        $grid->enableHotKeys();
-
+     
         // $grid->actions(function ($actions) {
         //     $actions->add(new Replicate);
         // });
@@ -102,7 +101,7 @@ class ProductContoller extends AdminController
        
         $form->select('product_category_id', '分類種類')->options($this->category);
         $form->text('name', "產品名稱")->rules('required');
-        $form->multipleImage('image', "圖片")->removable()->uniqueName();
+        $form->multipleImage('image', "圖片")->removable()->sortable()->uniqueName();
         $form->textarea('description', "描述");
         $form->switch('status', "上架狀態")->default(0);;
 

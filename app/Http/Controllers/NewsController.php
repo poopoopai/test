@@ -19,13 +19,4 @@ class NewsController extends Controller
         })->where('title', 'like', "%$title%")->with('newsCategory')->get();
     }
 
-    public function test()
-    {
-       
-        
-    //  return response()->json(Storage::disk('public')->put('file.txt', "TETSE222TSEContents"));
-    //    return Storage::disk('public')->url("images/")->has('test.txt');
-
-       
-    }
 }
