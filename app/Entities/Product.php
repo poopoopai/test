@@ -13,12 +13,12 @@ class Product extends Model
     	return $this->belongsTo(ProductCategory::class);
     }
 
-    public function getimageAttribute($value)
+    public function getImageAttribute($value)
     {
        return json_decode($value, true);
     }
 
-    public function setimageAttribute($value)
+    public function setImageAttribute($value)
     {
        if (is_array($value)){
            $this->attributes['image'] = json_encode($value);

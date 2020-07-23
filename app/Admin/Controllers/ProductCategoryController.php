@@ -35,7 +35,7 @@ class ProductCategoryController extends AdminController
         
        
 
-        $grid->disableCreateButton();
+        // $grid->disableCreateButton();
         $grid->disableExport();
         // $grid->actions(function ($actions) {
         //     $actions->add(new Replicate);
