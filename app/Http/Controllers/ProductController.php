@@ -35,7 +35,7 @@ class ProductController extends Controller
             $company = "iphone";
             
             
-            dd(123);
+            
             if (Storage::disk('public')->exists("$product")) { //check storage have image
                 rename(storage_path("app\public\images\\$originFile"), storage_path("app\public\images\\$company$key.$fileType")); //chance image name 
 
