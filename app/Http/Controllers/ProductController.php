@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Entities\Product;
+use App\Enums\TestEnum;
+use Illuminate\Support\Facades\App;
+use App\Jobs\Test;
 
 class ProductController extends Controller
 {
@@ -12,7 +15,6 @@ class ProductController extends Controller
 
     public function index(request $request)
     {
-
         $type = $request->query('type');
         $name = $request->query('name');
         $datas = Product::where('id', 1)->get();
@@ -23,10 +25,14 @@ class ProductController extends Controller
         //     $newFileName = $fixFileName[0].'/'.$changeName;
         //     return $newFileName;
         // }
-        $id = 1;
-        $products = Product::where('id', $id)->with('productCategory')->first();
+        $id = 3;
 
-           
+        // $filter = function ($q) {
+        //     return $q['name'] = "rename";
+        // };
+        // Product::whereIn($test, [1, 2])->get()->map($filter);
+         
+        // dd(__('admin.online', [], app()->getlocale()));
 
         foreach ($products->image as $key => $product) {
 
@@ -58,8 +64,8 @@ class ProductController extends Controller
      
     }
 
-    public function CustomImageName(){
+    public function test(){
         
-        
+        Test::dispatch(Request()->test);
     }
 }

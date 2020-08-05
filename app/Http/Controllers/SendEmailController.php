@@ -22,7 +22,7 @@ class SendEmailController extends Controller
         //     'name'      =>  $request->name,
         //     'message'   =>   $request->message
         // );
-        dd(42);
+    
         $rules = [
             'title'  =>  'required',
             'name'     =>  'required',
@@ -39,7 +39,6 @@ class SendEmailController extends Controller
         $data = $request->validate($rules);
 
         
-        dd($data);
         Mail::to($request->email)->send(new SendEmail($data));
         
         return back()->with('success', 'Thanks for contacting us!');

@@ -98,9 +98,12 @@ class ProductContoller extends AdminController
     protected function form()
     {
         $form = new Form(new Product);
-       
+        
         $form->select('product_category_id', '分類種類')->options($this->category);
-        $form->text('name', "產品名稱")->rules('required');
+      
+        $form->display('productCategory', "產品名稱")->with(function ($query) {
+            dd($query);
+        });
         $form->multipleImage('image', "圖片")->removable()->sortable()->uniqueName();
         $form->textarea('description', "描述");
         $form->switch('status', "上架狀態")->default(0);;

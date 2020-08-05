@@ -18,5 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/News', 'NewsController@index');
-Route::get('/Products', 'ProductController@index');
+Route::get('/Products', 'ProductController@index')->name('test');
+
+Route::any('/queue', 'ProductController@test');
 

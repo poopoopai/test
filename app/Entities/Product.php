@@ -24,4 +24,9 @@ class Product extends Model
            $this->attributes['image'] = json_encode($value);
        }
     }
+
+    public function scopeTestscope($query, $id) // first params builder 
+    {
+        dd($id, $query->select('name')->get());
+    }
 }
