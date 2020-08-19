@@ -33,24 +33,40 @@ class ProductController extends Controller
         // Product::whereIn($test, [1, 2])->get()->map($filter);
          
         // dd(__('admin.online', [], app()->getlocale()));
-
+        $id = 13;
+      
+        $products = Product::where('id', $id)->with('productCategory')->first();
+        // dd($products);
         foreach ($products->image as $key => $product) {
+         
+            $fileType = explode('.', $product);
+            $lastFileType = $fileType[count($fileType) - 1];
+            $originFile = explode('/', $product);
+            $lastOrigin = $originFile[count($originFile) - 1];
 
-            $fileType = explode('.', $product)[1];
-            $originFile = explode('/', $product)[1];
-            $company = "iphone";
-            
-            
-            // dd(123);
-            if (Storage::disk('public')->exists("$product")) { //check storage have image
-                rename(storage_path("app\public\images\\$originFile"), storage_path("app\public\images\\$company$key.$fileType")); //chance image name 
-
-                $newImageLoction =  array_push($newImageLoction, "images\\$company$key.$fileType");
+            $company = "iphone3";
+           dd($lastOrigin, $originFile);
+            if (Storage::disk('public')->exists($product)) { //check storage have image
+                dd(storage_path("app\public\images\\$lastOrigin"), storage_path("app\public\images\\$company$key.$lastFileType"));
+                rename(storage_path("app\public\images\\$lastOrigin"), storage_path("app\public\images\\$company$key.$lastFileType")); //chance image name 
+                
+                
+                $products->image = [
+                   "images\\$company$key.$lastFileType",
+                ];
+                $products->save();
+                // array_push($products->image[], "images\\$company$key.$lastFileType");
+                // dd(2222, $products->image);
             }
             
+          
         }
         // Product::save($products);
 
+        // dd(123);
+        dd($products);
+        $products = Product::where('id', $id)->with('productCategory')->first();
+       
         
 
        

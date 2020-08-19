@@ -8,6 +8,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Repositories\ProductRepository;
 // use App\Admin\Actions\Replicate;
 // use App\Admin\Actions\BatchReplicate;
 
@@ -21,10 +22,12 @@ class ProductContoller extends AdminController
     protected $title = '產品選擇';
 
     protected $category;
+    protected $ProductRepository;
 
-    public function __construct()
+    public function __construct(ProductRepository $ProductRepository)
     {
         // 產品分類
+        $this->ProductRepository = $ProductRepository;
         $this->category = ProductCategory::get()->pluck('type', 'id');
     }
 
@@ -101,13 +104,11 @@ class ProductContoller extends AdminController
         
         $form->select('product_category_id', '分類種類')->options($this->category);
       
-        $form->display('productCategory', "產品名稱")->with(function ($query) {
-            dd($query);
-        });
+        $form->text('productCategory', "產品名稱");
         $form->multipleImage('image', "圖片")->removable()->sortable()->uniqueName();
         $form->textarea('description', "描述");
         $form->switch('status', "上架狀態")->default(0);;
-
+        
         return $form;
     }
 }

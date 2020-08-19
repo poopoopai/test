@@ -18,7 +18,7 @@ Route::group([
     $router->resource('news-categories', NewsCategoryController::class);
     
     $router->resource('category-trees', CategoryTreeController::class);
-    
+    $router->resource('user-permissions', UserPermissionController::class);
     $router->group(['prefix' => 'product-categories'], function ($router) {
         $router->get('/', 'ProductCategoryController@index');
         $router->get('/create', 'ProductCategoryController@create');
